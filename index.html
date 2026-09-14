@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lauren Nyakara — Land Surveyor &amp; GIS Specialist</title>
+
+<!--
+  ============================================================
+  HOW TO CUSTOMIZE FURTHER
+  ============================================================
+  Search this file (Ctrl/Cmd+F) for these markers:
+  [EDIT: CONTACT]   — phone / email / links / resume file
+  [EDIT: PROJECT n]  — swap in real map exports as <img> tags
+                        (see the comment inside Project 1's thumb)
+  Everything else (bio, skills, experience, education) is
+  already filled in from your CV and portfolio PDF — just
+  proofread and adjust wording to taste.
+  ============================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:        #10161F;
+    --ink-2:      #182333;
+    --ink-3:      #202D40;
+    --paper:      #E8E4D6;
+    --paper-2:    #DFDAC8;
+    --line-dark:  #2B3B50;
+    --line-light: #C9C2A9;
+    --water:      #4E86AE;
+    --contour:    #C6923D;
+    --forest:     #62795E;
+    --white-tx:   #F1EEE4;
+    --dim-tx:     #93A0B3;
+    --ink-tx:     #1A2230;
+    --dim-tx-2:   #6C6656;
+
+    --sans: 'Inter', system-ui, sans-serif;
+    --display: 'Space Grotesk', var(--sans);
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+    --maxw: 1180px;
+    --gutter: clamp(20px, 5vw, 64px);
+    --ruler-w: 34px;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+  }
+
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--white-tx);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{ color:inherit; }
+  img,svg{ display:block; max-width:100%; }
+  button{ font-family:inherit; }
+  ::selection{ background:var(--water); color:var(--ink); }
+
+  .sheet{ position:relative; padding-left:var(--ruler-w); }
+
+  .ruler{
+    position:fixed; top:0; left:0; bottom:0; width:var(--ruler-w);
+    background:var(--ink-2);
+    border-right:1px solid var(--line-dark);
+    z-index:40;
+    display:flex; flex-direction:column; align-items:center;
+    padding:18px 0;
+    font-family:var(--mono); font-size:9px; color:var(--dim-tx); letter-spacing:0.02em;
+  }
+  .ruler__ticks{ flex:1; display:flex; flex-direction:column; justify-content:space-between; align-items:center; width:100%; padding:24px 0; }
+  .ruler__tick{ writing-mode:vertical-rl; transform:rotate(180deg); white-space:nowrap; }
+  .ruler__tick::before{ content:""; display:block; width:8px; height:1px; background:var(--line-dark); margin:0 auto 6px; }
+  @media (max-width:760px){ .ruler{ display:none; } .sheet{ padding-left:0; } }
+
+  section{ padding:88px var(--gutter); }
+  .inner{ max-width:var(--maxw); margin:0 auto; }
+
+  h1,h2,h3{ font-family:var(--display); font-weight:600; margin:0; letter-spacing:-0.01em; }
+
+  .eyebrow{
+    font-family:var(--mono); font-size:11px; color:var(--water); letter-spacing:0.06em;
+    display:inline-flex; align-items:center; gap:8px; margin:0 0 14px;
+  }
+  .eyebrow::before{ content:""; width:14px; height:1px; background:var(--water); }
+
+  .nav{
+    position:sticky; top:0; z-index:30;
+    background:rgba(16,22,31,0.92); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-dark);
+    padding:16px var(--gutter);
+  }
+  .nav .inner{ display:flex; align-items:center; justify-content:space-between; gap:24px; max-width:var(--maxw); }
+  .nav__mark{ font-family:var(--mono); font-size:13px; color:var(--white-tx); display:flex; align-items:baseline; gap:8px; }
+  .nav__mark b{ font-family:var(--display); font-weight:600; font-size:15px; }
+  .nav__mark span{ color:var(--dim-tx); }
+  .nav__links{ display:flex; gap:28px; list-style:none; margin:0; padding:0; font-size:13.5px; }
+  .nav__links a{ text-decoration:none; color:var(--dim-tx); transition:color .2s ease; padding:4px 0; border-bottom:1px solid transparent; }
+  .nav__links a:hover, .nav__links a:focus-visible{ color:var(--white-tx); border-bottom-color:var(--water); }
+  @media (max-width:680px){ .nav__links{ display:none; } }
+
+  .hero{ position:relative; padding-top:56px; padding-bottom:64px; overflow:hidden; border-bottom:1px solid var(--line-dark); }
+  .traverse-bg{ position:absolute; inset:0; width:100%; height:100%; opacity:0.6; z-index:0; }
+  .traverse-bg line, .traverse-bg polyline{ stroke:var(--line-dark); stroke-width:1; fill:none; }
+  .traverse-bg .hi{ stroke:var(--contour); opacity:0.55; }
+  .traverse-bg .hi2{ stroke:var(--water); opacity:0.4; }
+  .traverse-bg circle{ fill:var(--ink); stroke:var(--line-dark); stroke-width:1; }
+  .traverse-bg circle.pt{ fill:var(--contour); stroke:none; opacity:0.7; r:2.5; }
+
+  .hero__grid{ position:relative; z-index:2; display:grid; grid-template-columns:1fr auto; gap:32px; align-items:start; }
+  @media (max-width:820px){ .hero__grid{ grid-template-columns:1fr; } }
+
+  .compass{ width:64px; height:64px; flex-shrink:0; }
+  .compass path{ fill:var(--water); }
+  .compass circle{ fill:none; stroke:var(--line-dark); stroke-width:1; }
+  .compass text{ font-family:var(--mono); font-size:9px; fill:var(--dim-tx); }
+
+  .hero__role{ font-family:var(--mono); font-size:13px; color:var(--water); letter-spacing:0.03em; margin:18px 0 6px; }
+  .hero h1{ font-size:clamp(2.2rem, 5.6vw, 4.2rem); line-height:1.04; margin:0 0 20px; }
+  .hero p.tagline{ max-width:54ch; font-size:1.1rem; color:var(--dim-tx); margin:0 0 34px; }
+
+  .readout{
+    font-family:var(--mono); font-size:12.5px; color:var(--white-tx);
+    background:var(--ink-2); border:1px solid var(--line-dark);
+    padding:12px 16px; display:inline-flex; gap:18px; align-items:center; flex-wrap:wrap;
+  }
+  .readout span.lbl{ color:var(--dim-tx); margin-right:4px; }
+  .readout .dot{ width:6px; height:6px; border-radius:50%; background:var(--water); }
+
+  .hero__side{ display:flex; flex-direction:column; align-items:flex-end; gap:22px; min-width:180px; }
+  @media (max-width:820px){ .hero__side{ flex-direction:row; align-items:center; justify-content:space-between; } }
+
+  .scalebar{ font-family:var(--mono); font-size:9.5px; color:var(--dim-tx); }
+  .scalebar__label{ margin-bottom:6px; letter-spacing:0.04em; }
+  .scalebar__bar{ display:flex; height:8px; width:160px; border:1px solid var(--dim-tx); }
+  .scalebar__seg{ flex:1; }
+  .scalebar__seg:nth-child(odd){ background:var(--white-tx); }
+  .scalebar__seg:nth-child(even){ background:transparent; }
+  .scalebar__ticks{ display:flex; justify-content:space-between; width:160px; margin-top:4px; }
+
+  .cta-row{ display:flex; gap:12px; margin-top:36px; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:0.02em;
+    padding:12px 20px; border:1px solid var(--water); background:transparent; color:var(--white-tx);
+    text-decoration:none; cursor:pointer; transition:background .2s ease, color .2s ease;
+  }
+  .btn:hover, .btn:focus-visible{ background:var(--water); color:var(--ink); }
+  .btn.ghost{ border-color:var(--line-dark); color:var(--dim-tx); }
+  .btn.ghost:hover{ background:var(--ink-2); color:var(--white-tx); }
+
+  .about{ background:var(--paper); color:var(--ink-tx); }
+  .about__grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:56px; align-items:start; }
+  @media (max-width:760px){ .about__grid{ grid-template-columns:1fr; } }
+  .about h2{ font-size:clamp(1.6rem,3vw,2.2rem); margin-bottom:18px; color:var(--ink-tx); }
+  .about p{ color:#3A3527; max-width:58ch; }
+  .about p + p{ margin-top:14px; }
+
+  .stats{ display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line-light); border-left:1px solid var(--line-light); }
+  .stat{ border-right:1px solid var(--line-light); border-bottom:1px solid var(--line-light); padding:22px 20px; }
+  .stat b{ display:block; font-family:var(--display); font-size:2rem; color:var(--ink-tx); }
+  .stat span{ font-family:var(--mono); font-size:11.5px; color:var(--dim-tx-2); }
+
+  .credentials{ margin-top:44px; border-top:1px solid var(--line-light); padding-top:26px; }
+  .credentials h3{ font-size:1rem; color:var(--ink-tx); margin-bottom:16px; }
+  .cred-row{ display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid var(--line-light); font-size:14px; flex-wrap:wrap; }
+  .cred-row dt{ font-weight:500; color:var(--ink-tx); }
+  .cred-row dd{ margin:0; font-family:var(--mono); font-size:12px; color:var(--dim-tx-2); text-align:right; }
+
+  .skills{ background:var(--ink); border-top:1px solid var(--line-dark); border-bottom:1px solid var(--line-dark); }
+  .layers{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line-dark); border:1px solid var(--line-dark); margin-top:36px; }
+  @media (max-width:760px){ .layers{ grid-template-columns:1fr; } }
+  .layer-group{ background:var(--ink); padding:26px 28px; }
+  .layer-group h3{ font-family:var(--mono); font-size:12.5px; color:var(--dim-tx); font-weight:500; letter-spacing:0.02em; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--line-dark); }
+  .layer-item{ display:flex; align-items:flex-start; gap:11px; padding:7px 0; font-size:14.5px; }
+  .layer-item .box{ width:13px; height:13px; border:1px solid var(--dim-tx); flex-shrink:0; position:relative; margin-top:3px; }
+  .layer-item .box::after{ content:""; position:absolute; inset:2px; background:var(--water); }
+
+  .projects{ background:var(--paper); color:var(--ink-tx); }
+  .proj-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line-light); border:1px solid var(--line-light); margin-top:40px; }
+  @media (max-width:980px){ .proj-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:640px){ .proj-grid{ grid-template-columns:1fr; } }
+
+  .tile{ background:var(--paper); display:flex; flex-direction:column; transition:background .2s ease; }
+  .tile:hover{ background:var(--paper-2); }
+  .thumb{ aspect-ratio:4/3; background:var(--ink); position:relative; overflow:hidden; border-bottom:1px solid var(--line-light); }
+  .thumb__art{ width:100%; height:100%; object-fit:cover; object-position:center; background:var(--ink); }
+  .thumb__coord{
+    position:absolute; left:10px; bottom:9px;
+    font-family:var(--mono); font-size:10px; color:var(--white-tx);
+    background:rgba(16,22,31,0.7); padding:3px 7px; letter-spacing:0.01em;
+  }
+
+  .tile__body{ padding:22px 22px 26px; flex:1; display:flex; flex-direction:column; }
+  .tile__cat{ font-family:var(--mono); font-size:10.5px; color:var(--dim-tx-2); letter-spacing:0.03em; margin-bottom:10px; }
+  .tile h3{ font-size:1.1rem; margin-bottom:9px; color:var(--ink-tx); line-height:1.3; }
+  .tile p{ font-size:13.5px; color:#4A4536; margin:0 0 16px; flex:1; }
+  .tile__tags{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
+  .tag{ font-family:var(--mono); font-size:10.5px; color:var(--dim-tx-2); border:1px solid var(--line-light); padding:3px 8px; }
+  .tile__link{
+    font-family:var(--mono); font-size:12.5px; color:var(--ink-tx); text-decoration:none;
+    display:inline-flex; align-items:center; gap:7px; border-bottom:1px solid var(--ink-tx);
+    align-self:flex-start; padding-bottom:2px;
+  }
+  .tile__link:hover{ color:var(--water); border-color:var(--water); }
+
+  .experience{ background:var(--ink); }
+  .traverse{ position:relative; margin-top:48px; padding-left:28px; }
+  .traverse::before{
+    content:""; position:absolute; left:5px; top:6px; bottom:6px; width:1px;
+    background:repeating-linear-gradient(to bottom, var(--line-dark) 0 6px, transparent 6px 11px);
+  }
+  .stop{ position:relative; padding-bottom:40px; }
+  .stop:last-child{ padding-bottom:0; }
+  .stop::before{
+    content:""; position:absolute; left:-28px; top:5px; width:11px; height:11px;
+    border-radius:50%; background:var(--ink); border:2px solid var(--water);
+  }
+  .stop__meta{ display:flex; gap:16px; align-items:baseline; flex-wrap:wrap; margin-bottom:6px; }
+  .stop__date{ font-family:var(--mono); font-size:12px; color:var(--water); }
+  .stop h3{ font-size:1.1rem; color:var(--white-tx); }
+  .stop__org{ font-family:var(--mono); font-size:12.5px; color:var(--dim-tx); margin-bottom:8px; }
+  .stop p{ color:var(--dim-tx); max-width:66ch; font-size:14.5px; margin:0; }
+
+  .contact{ background:var(--paper); color:var(--ink-tx); }
+  .contact__grid{ display:grid; grid-template-columns:1fr 1fr; gap:56px; margin-top:36px; }
+  @media (max-width:760px){ .contact__grid{ grid-template-columns:1fr; } }
+  .contact-info dl{ margin:0; }
+  .contact-info .row{ display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--line-light); gap:16px; }
+  .contact-info dt{ font-family:var(--mono); font-size:12px; color:var(--dim-tx-2); }
+  .contact-info dd{ margin:0; font-size:14.5px; text-align:right; }
+  .contact-info a{ text-decoration:none; color:var(--ink-tx); border-bottom:1px solid var(--line-light); }
+  .contact-info a:hover{ color:var(--water); border-color:var(--water); }
+
+  .field{ margin-bottom:16px; }
+  .field label{ display:block; font-family:var(--mono); font-size:11px; color:var(--dim-tx-2); margin-bottom:6px; letter-spacing:0.02em; }
+  .field input, .field textarea{
+    width:100%; background:transparent; border:none; border-bottom:1px solid var(--line-light);
+    padding:9px 2px; font-family:var(--sans); font-size:14.5px; color:var(--ink-tx); outline:none; resize:vertical;
+  }
+  .field input:focus, .field textarea:focus{ border-color:var(--water); }
+  .contact form .btn{ border-color:var(--ink-tx); color:var(--ink-tx); margin-top:6px; }
+  .contact form .btn:hover{ background:var(--ink-tx); color:var(--paper); }
+
+  footer{ background:var(--ink-2); border-top:1px solid var(--line-dark); padding:22px var(--gutter); font-family:var(--mono); font-size:11px; color:var(--dim-tx); }
+  footer .inner{ max-width:var(--maxw); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+  :focus-visible{ outline:1px solid var(--water); outline-offset:2px; }
+
+  /* ---------- project detail modal ---------- */
+  body.modal-open{ overflow:hidden; }
+  .modal-overlay{
+    position:fixed; inset:0; z-index:100;
+    background:rgba(16,22,31,0.85);
+    display:none; align-items:flex-start; justify-content:center;
+    padding:48px 20px; overflow-y:auto;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal{
+    background:var(--paper); color:var(--ink-tx);
+    width:100%; max-width:840px;
+    border:1px solid var(--line-light);
+    margin-bottom:40px;
+  }
+  .modal__bar{
+    display:flex; justify-content:space-between; align-items:center;
+    background:var(--ink); color:var(--white-tx);
+    padding:13px 20px;
+    font-family:var(--mono); font-size:11.5px; letter-spacing:0.04em;
+    position:sticky; top:0; z-index:2;
+  }
+  .modal__close{
+    background:transparent; border:1px solid var(--line-dark); color:var(--white-tx);
+    width:26px; height:26px; cursor:pointer; font-family:var(--mono); font-size:13px; line-height:1;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .modal__close:hover, .modal__close:focus-visible{ background:var(--water); border-color:var(--water); color:var(--ink); }
+  .modal__body{ padding:30px 32px 40px; }
+  .modal__body h2{ font-size:clamp(1.3rem,2.6vw,1.7rem); margin-bottom:18px; line-height:1.25; }
+  .modal__meta{
+    display:grid; grid-template-columns:1fr 1fr; gap:0;
+    border-top:1px solid var(--line-light); border-left:1px solid var(--line-light);
+    margin-bottom:24px;
+  }
+  .modal__meta > div{ border-right:1px solid var(--line-light); border-bottom:1px solid var(--line-light); padding:11px 14px; }
+  .modal__meta dt{ font-family:var(--mono); font-size:10px; color:var(--dim-tx-2); letter-spacing:0.03em; margin-bottom:4px; }
+  .modal__meta dd{ margin:0; font-size:13.5px; }
+  .modal__body p{ font-size:14.5px; color:#3A3527; margin:0 0 14px; max-width:72ch; }
+  .modal__gallery{ display:flex; flex-direction:column; gap:24px; margin-top:28px; }
+  .modal__gallery figure{ margin:0; border:1px solid var(--line-light); background:#fff; }
+  .modal__gallery img{ width:100%; display:block; }
+  .modal__gallery figcaption{ font-family:var(--mono); font-size:11px; color:var(--dim-tx-2); padding:9px 13px; border-top:1px solid var(--line-light); }
+  .modal__empty{ font-family:var(--mono); font-size:12.5px; color:var(--dim-tx-2); border-top:1px solid var(--line-light); padding-top:16px; margin-top:20px; }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <div class="ruler" aria-hidden="true">
+    <div class="ruler__ticks">
+      <span class="ruler__tick">1.20°S</span>
+      <span class="ruler__tick">1.25°S</span>
+      <span class="ruler__tick">1.30°S</span>
+      <span class="ruler__tick">1.35°S</span>
+      <span class="ruler__tick">1.40°S</span>
+    </div>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav">
+    <div class="inner">
+      <div class="nav__mark"><b>Lauren Nyakara</b><span>Land Survey &amp; GIS</span></div>
+      <ul class="nav__links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="hero">
+    <svg class="traverse-bg" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <polyline points="-40,120 140,90 300,150 470,110 640,170 810,120 980,180 1150,140 1300,190" />
+      <polyline points="-40,230 130,260 290,210 460,270 630,220 800,280 970,230 1140,290 1300,250" class="hi2" />
+      <polyline points="-40,340 150,310 310,370 480,320 650,380 820,330 990,390 1160,340 1300,380" />
+      <polyline points="-40,450 120,480 280,430 450,490 620,440 790,500 960,450 1130,510 1300,470" class="hi" />
+      <polyline points="-40,560 145,530 305,590 475,540 645,600 815,550 985,610 1155,560 1300,600" />
+      <line x1="0" y1="0" x2="1200" y2="700" class="hi2" opacity="0.15" />
+      <line x1="1200" y1="0" x2="0" y2="700" opacity="0.1" />
+      <circle class="pt" cx="140" cy="90" r="2.5"/><circle class="pt" cx="470" cy="110" r="2.5"/>
+      <circle class="pt" cx="810" cy="120" r="2.5"/><circle class="pt" cx="1150" cy="140" r="2.5"/>
+      <circle class="pt" cx="130" cy="260" r="2.5"/><circle class="pt" cx="630" cy="220" r="2.5"/>
+      <circle class="pt" cx="990" cy="390" r="2.5"/><circle class="pt" cx="450" cy="490" r="2.5"/>
+    </svg>
+
+    <div class="inner hero__grid">
+      <div>
+        <svg class="compass" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="30"></circle>
+          <path d="M32 6 L38 32 L32 27 L26 32 Z"></path>
+          <path d="M32 58 L26 32 L32 37 L38 32 Z" opacity="0.35" fill="var(--water)"></path>
+          <text x="32" y="18" text-anchor="middle">N</text>
+        </svg>
+
+        <div class="hero__role">Land Surveyor &amp; GIS Specialist</div>
+        <h1>Lauren&nbsp;Nyakara</h1>
+        <p class="tagline">I survey the boundaries and map the data behind land transactions, urban planning, and development projects across Kenya.</p>
+
+        <div class="readout" id="readout">
+          <span class="dot"></span>
+          <span><span class="lbl">LAT</span><span id="readout-lat">1.2921° S</span></span>
+          <span><span class="lbl">LON</span><span id="readout-lon">36.8219° E</span></span>
+          <span><span class="lbl">DATUM</span>Arc 1960 / WGS 84</span>
+        </div>
+
+        <div class="cta-row">
+          <a class="btn" href="#projects">View projects</a>
+          <a class="btn ghost" href="#contact">Get in touch</a>
+        </div>
+      </div>
+
+      <div class="hero__side">
+        <div class="scalebar" aria-hidden="true">
+          <div class="scalebar__label">SCALE 1 : 5,000</div>
+          <div class="scalebar__bar">
+            <div class="scalebar__seg"></div><div class="scalebar__seg"></div>
+            <div class="scalebar__seg"></div><div class="scalebar__seg"></div>
+          </div>
+          <div class="scalebar__ticks"><span>0</span><span>100</span><span>200</span><span>400 m</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="about" id="about">
+    <div class="inner about__grid">
+      <div>
+        <div class="eyebrow">About</div>
+        <h2>Boundaries first, then the map.</h2>
+        <p>I'm a land surveyor and GIS specialist based in Kenya, with over five years across cadastral surveying, land administration, and geospatial analysis. My work spans field surveys, boundary and subdivision work, sectional property surveys, and site suitability analysis &mdash; supporting land transactions, urban planning, and development projects with data that holds up to scrutiny.</p>
+        <p>I'm also a contributor to Humanitarian OpenStreetMap, mapping underserved areas in my own time.</p>
+      </div>
+      <div>
+        <div class="stats">
+          <div class="stat"><b>5+</b><span>Years in land surveying &amp; GIS</span></div>
+          <div class="stat"><b>6</b><span>Counties mapped across Kenya</span></div>
+          <div class="stat"><b>5</b><span>Firms &amp; agencies worked with</span></div>
+          <div class="stat"><b>3</b><span>Sectional titling projects delivered</span></div>
+        </div>
+        <div class="credentials">
+          <h3>Education &amp; training</h3>
+          <div class="cred-row"><dt>B.Tech, Land Survey Technology</dt><dd>Technical University of Kenya, 2014&ndash;2019</dd></div>
+          <div class="cred-row"><dt>Transforming Maps into Stories &mdash; Module 1</dt><dd>RCMRD, 17 Aug 2026</dd></div>
+          <div class="cred-row"><dt>Transforming Data into Decisions &mdash; Module 2</dt><dd>RCMRD, 25 Aug 2026</dd></div>
+          <div class="cred-row"><dt>Geospatial Data Science with Python</dt><dd>Udemy, Certificate</dd></div>
+          <div class="cred-row"><dt>R Programming</dt><dd>RCMRD Institute, Certificate</dd></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SKILLS ============ -->
+  <section class="skills" id="skills">
+    <div class="inner">
+      <div class="eyebrow">Skills</div>
+      <h2>Layers I work in</h2>
+
+      <div class="layers">
+        <div class="layer-group">
+          <h3>Survey &amp; field data</h3>
+          <div class="layer-item"><span class="box"></span>RTK / GNSS GPS surveys</div>
+          <div class="layer-item"><span class="box"></span>Mobile data collection — Kobo Toolbox</div>
+          <div class="layer-item"><span class="box"></span>Cadastral &amp; boundary mapping</div>
+          <div class="layer-item"><span class="box"></span>Sectional property surveys</div>
+        </div>
+        <div class="layer-group">
+          <h3>GIS software &amp; platforms</h3>
+          <div class="layer-item"><span class="box"></span>QGIS</div>
+          <div class="layer-item"><span class="box"></span>ArcGIS Pro</div>
+          <div class="layer-item"><span class="box"></span>ArcGIS Online — AGOL, Portal</div>
+          <div class="layer-item"><span class="box"></span>GIS database design &amp; maintenance</div>
+        </div>
+        <div class="layer-group">
+          <h3>Analysis &amp; programming</h3>
+          <div class="layer-item"><span class="box"></span>Site suitability analysis</div>
+          <div class="layer-item"><span class="box"></span>Python for geospatial work</div>
+          <div class="layer-item"><span class="box"></span>R programming</div>
+          <div class="layer-item"><span class="box"></span>Data visualization</div>
+        </div>
+        <div class="layer-group">
+          <h3>Delivery &amp; practice</h3>
+          <div class="layer-item"><span class="box"></span>Cadastral design &amp; subdivision</div>
+          <div class="layer-item"><span class="box"></span>Report writing</div>
+          <div class="layer-item"><span class="box"></span>Project management</div>
+          <div class="layer-item"><span class="box"></span>Humanitarian OpenStreetMap contributor</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section class="projects" id="projects">
+    <div class="inner">
+      <div class="eyebrow">Selected work</div>
+      <h2>Projects</h2>
+
+      <div class="proj-grid">
+
+        <!-- PROJECT 1 — Tana River -->
+        <article class="tile">
+          <div class="thumb">
+            <img class="thumb__art" data-cover="handampia_structure" alt="Handampia structure plan — zoned land use">
+            <span class="thumb__coord">1.65°S, 40.05°E</span>
+          </div>
+          <div class="tile__body">
+            <div class="tile__cat">Cadastral design · Spatial planning</div>
+            <h3>Tana River spatial plan — cadastral design support</h3>
+            <p>Structured parcel layouts and integrated cadastral boundary data into the Handampia scheme plan, covering a 209&nbsp;ha flood-plain conservation zone at 1:5,000.</p>
+            <div class="tile__tags"><span class="tag">Cadastral design</span><span class="tag">GIS</span><span class="tag">Arc 1960 UTM</span></div>
+            <a class="tile__link" href="#" data-project="tana-river">View project</a>
+          </div>
+        </article>
+
+        <!-- PROJECT 2 — Migori -->
+        <article class="tile">
+          <div class="thumb">
+            <img class="thumb__art" data-cover="migori_town" alt="Migori town proposed structure plan">
+            <span class="thumb__coord">1.06°S, 34.47°E</span>
+          </div>
+          <div class="tile__body">
+            <div class="tile__cat">Urban structure planning</div>
+            <h3>Migori town — draft structure plan</h3>
+            <p>Prepared GIS mapping and spatial data for CBD land-use zoning, the town-wide structure plan, and the transportation network at 1:25,000.</p>
+            <div class="tile__tags"><span class="tag">ArcGIS</span><span class="tag">Structure planning</span><span class="tag">Transport network</span></div>
+            <a class="tile__link" href="#" data-project="migori">View project</a>
+          </div>
+        </article>
+
+        <!-- PROJECT 3 — Sectional titling -->
+        <article class="tile">
+          <div class="thumb">
+            <img class="thumb__art" data-cover="greenzone_site" alt="Green Zone Apartments site and building location plan">
+            <span class="thumb__coord">1.29°S, 36.82°E</span>
+          </div>
+          <div class="tile__body">
+            <div class="tile__cat">Sectional property survey</div>
+            <h3>Sectional titling — Lily Court &amp; Green Zone Apartments</h3>
+            <p>Delivered sectional plans and unit-factor schedules for a Parklands apartment block and an 82-unit Kiambu development, from survey through registration.</p>
+            <div class="tile__tags"><span class="tag">Sectional survey</span><span class="tag">Unit factors</span><span class="tag">Survey plans</span></div>
+            <a class="tile__link" href="#" data-project="sectional-titling">View project</a>
+          </div>
+        </article>
+
+        <!-- PROJECT 4 — Wajir -->
+        <article class="tile">
+          <div class="thumb">
+            <svg class="thumb__art" viewBox="0 0 300 225" preserveAspectRatio="none">
+              <rect width="300" height="225" fill="#10161F"/>
+              <path d="M20 190 C60 60 220 30 280 100 C295 160 240 205 150 210 C90 213 40 205 20 190 Z" fill="none" stroke="#2B3B50" stroke-width="1.2"/>
+              <circle cx="70" cy="150" r="5" fill="#C6923D"/><circle cx="120" cy="90" r="5" fill="#C6923D"/>
+              <circle cx="180" cy="70" r="5" fill="#C6923D"/><circle cx="230" cy="110" r="5" fill="#C6923D"/>
+              <circle cx="200" cy="160" r="5" fill="#C6923D"/><circle cx="140" cy="170" r="5" fill="#C6923D"/>
+              <circle cx="250" cy="150" r="5" fill="#C6923D"/>
+            </svg>
+            <span class="thumb__coord">1.75°N, 40.06°E</span>
+          </div>
+          <div class="tile__body">
+            <div class="tile__cat">Settlement mapping</div>
+            <h3>Mapping seven urban centres, Wajir County</h3>
+            <p>Oversaw mapping of seven towns to support planning and service delivery, capturing settlement patterns, infrastructure, and land use.</p>
+            <div class="tile__tags"><span class="tag">Field survey</span><span class="tag">QGIS</span><span class="tag">Infrastructure mapping</span></div>
+            <a class="tile__link" href="#" data-project="wajir">View project</a>
+          </div>
+        </article>
+
+        <!-- PROJECT 5 — KUSP -->
+        <article class="tile">
+          <div class="thumb">
+            <svg class="thumb__art" viewBox="0 0 300 225" preserveAspectRatio="none">
+              <rect width="300" height="225" fill="#10161F"/>
+              <path d="M40 30 L190 20 L270 60 L240 130 L260 190 L150 210 L60 180 L30 100 Z" fill="none" stroke="#4E86AE" stroke-width="1.2"/>
+              <circle cx="90" cy="80" r="4" fill="#62795E"/><circle cx="160" cy="60" r="4" fill="#62795E"/>
+              <circle cx="210" cy="100" r="4" fill="#62795E"/><circle cx="120" cy="150" r="4" fill="#62795E"/>
+              <circle cx="190" cy="160" r="4" fill="#62795E"/>
+              <path d="M90 80 L160 60 L210 100 L190 160 L120 150 Z" stroke="#62795E" stroke-width="0.7" fill="none" opacity="0.5"/>
+            </svg>
+            <span class="thumb__coord">Multi-county, Kenya</span>
+          </div>
+          <div class="tile__body">
+            <div class="tile__cat">National programme · GIS team</div>
+            <h3>Kenya Urban Support Program — GIS team</h3>
+            <p>Contributed GIS data preparation, mapping, and analysis across participating urban centres, producing spatial outputs for infrastructure prioritization.</p>
+            <div class="tile__tags"><span class="tag">GIS</span><span class="tag">Data prep</span><span class="tag">Urban planning</span></div>
+            <a class="tile__link" href="#" data-project="kusp">View project</a>
+          </div>
+        </article>
+
+        <!-- PROJECT 6 — Baringo -->
+        <article class="tile">
+          <div class="thumb">
+            <svg class="thumb__art" viewBox="0 0 300 225" preserveAspectRatio="none">
+              <rect width="300" height="225" fill="#10161F"/>
+              <path d="M50 200 L100 40 L150 120 L200 20 L250 200 Z" fill="#2B3B50"/>
+              <circle cx="150" cy="110" r="30" fill="none" stroke="#C6923D" stroke-width="1"/>
+              <circle cx="150" cy="110" r="55" fill="none" stroke="#C6923D" stroke-width="1" opacity="0.6"/>
+              <circle cx="150" cy="110" r="80" fill="none" stroke="#C6923D" stroke-width="1" opacity="0.3"/>
+            </svg>
+            <span class="thumb__coord">0.49°N, 35.94°E</span>
+          </div>
+          <div class="tile__body">
+            <div class="tile__cat">Site suitability analysis</div>
+            <h3>Site suitability for affordable housing, Baringo</h3>
+            <p>Ran a thematic weighted-overlay analysis across infrastructure access, water, flood risk, and sewer reticulation to identify optimal development zones.</p>
+            <div class="tile__tags"><span class="tag">Weighted overlay</span><span class="tag">Thematic mapping</span><span class="tag">GIS</span></div>
+            <a class="tile__link" href="#" data-project="baringo">View project</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXPERIENCE ============ -->
+  <section class="experience" id="experience">
+    <div class="inner">
+      <div class="eyebrow">Career traverse</div>
+      <h2>Experience</h2>
+
+      <div class="traverse">
+        <div class="stop">
+          <div class="stop__meta"><span class="stop__date">Aug 2024 — Present</span><h3>Land Surveyor &amp; GIS Analyst</h3></div>
+          <div class="stop__org">Property Boutique (EA) Ltd</div>
+          <p>Run due-diligence surveys for land transactions — boundary verification, encumbrance checks, and site inspections — plus GIS-based site suitability mapping and technical advisory for purchasers and developers.</p>
+        </div>
+        <div class="stop">
+          <div class="stop__meta"><span class="stop__date">Jan 2024 — Aug 2024</span><h3>Land Surveyor &amp; GIS Analyst</h3></div>
+          <div class="stop__org">Cremona Group</div>
+          <p>Managed RTK GPS and mobile mapping workflows for field data acquisition; produced cadastral and boundary maps supporting dispute resolution and land regularization.</p>
+        </div>
+        <div class="stop">
+          <div class="stop__meta"><span class="stop__date">Jun 2023 — Jun 2024</span><h3>Land Survey Intern</h3></div>
+          <div class="stop__org">Survey of Kenya</div>
+          <p>Reviewed cadastral survey files and mutation forms for statutory compliance; supported the regularization of informal settlements and digitization on the Ardhi Sasa platform.</p>
+        </div>
+        <div class="stop">
+          <div class="stop__meta"><span class="stop__date">Jan 2023 — Jan 2024</span><h3>Land Surveyor &amp; GIS Analyst</h3></div>
+          <div class="stop__org">Galleyr Investments Ltd</div>
+          <p>Built and maintained structured geodatabases; carried out cadastral, utility, and site-suitability mapping to support land registration and planning approvals.</p>
+        </div>
+        <div class="stop">
+          <div class="stop__meta"><span class="stop__date">Jan 2018 — Jan 2021</span><h3>GIS Analyst</h3></div>
+          <div class="stop__org">GeoDev (K) Ltd</div>
+          <p>Conducted spatial analysis and geospatial modeling for urban and infrastructure planning; developed and maintained the organization's spatial data infrastructure.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="contact" id="contact">
+    <div class="inner">
+      <div class="eyebrow">Get in touch</div>
+      <h2>Let's talk about your next survey or spatial project</h2>
+
+      <div class="contact__grid">
+        <div class="contact-info">
+          <!-- [EDIT: CONTACT] -->
+          <div class="row"><dt>Email</dt><dd><a href="mailto:nyakaralauren@gmail.com">nyakaralauren@gmail.com</a></dd></div>
+          <div class="row"><dt>Phone</dt><dd><a href="tel:+254769412771">+254 769 412 771</a></dd></div>
+          <div class="row"><dt>Location</dt><dd>Nairobi, Kenya</dd></div>
+          <div class="row"><dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/lauren-nyakara-surveyor" target="_blank" rel="noopener">linkedin.com/in/lauren-nyakara-surveyor</a></dd></div>
+          <div class="row"><dt>GitHub</dt><dd><a href="https://github.com/Nyakara96" target="_blank" rel="noopener">github.com/Nyakara96</a></dd></div>
+          <div class="row"><dt>Resume</dt><dd><a id="resume-link" href="Lauren-Nyakara-CV.pdf" download="Lauren-Nyakara-CV.pdf">Download PDF</a></dd></div>
+        </div>
+
+        <form id="contact-form" action="https://formspree.io/f/xdeorblw" method="POST">
+          <div class="field">
+            <label for="f-name">Name</label>
+            <input id="f-name" name="name" type="text" required>
+          </div>
+          <div class="field">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" required>
+          </div>
+          <div class="field">
+            <label for="f-msg">Message</label>
+            <textarea id="f-msg" name="message" rows="4" required></textarea>
+          </div>
+          <button class="btn" type="submit">Send message</button>
+          <p id="form-note" style="font-family:var(--mono); font-size:11px; color:var(--dim-tx-2); margin-top:12px; display:none;">Opening your email app with this message pre-filled&hellip;</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="inner">
+      <span>Coordinate systems: Arc 1960 UTM · WGS 84</span>
+      <span>© 2026 Lauren Nyakara. Portfolio.</span>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ============ PROJECT DETAIL MODAL ============ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal__bar">
+      <span>PROJECT FILE</span>
+      <button class="modal__close" id="modal-close" aria-label="Close project detail">✕</button>
+    </div>
+    <div class="modal__body" id="modal-body"><!-- filled by JS --></div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    var hero = document.getElementById('hero');
+    var latEl = document.getElementById('readout-lat');
+    var lonEl = document.getElementById('readout-lon');
+    // Bounding box roughly over Nairobi, Kenya.
+    var bounds = { latMax: -1.15, latMin: -1.45, lonMin: 36.70, lonMax: 36.95 };
+
+    if(!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    hero.addEventListener('mousemove', function(e){
+      var rect = hero.getBoundingClientRect();
+      var x = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
+      var y = Math.min(Math.max((e.clientY - rect.top) / rect.height, 0), 1);
+      var lat = bounds.latMax - y * (bounds.latMax - bounds.latMin);
+      var lon = bounds.lonMin + x * (bounds.lonMax - bounds.lonMin);
+      latEl.textContent = Math.abs(lat).toFixed(4) + '° S';
+      lonEl.textContent = lon.toFixed(4) + '° E';
+    });
+  })();
+</script>
+
+
+<script>
+const IMAGES = {
+  "handampia_scheme": "images/handampia-scheme-plan.jpg",
+  "handampia_structure": "images/handampia-structure-plan.jpg",
+  "migori_cbd": "images/migori-cbd-zoning.jpg",
+  "migori_town": "images/migori-town-structure-plan.jpg",
+  "migori_transport": "images/migori-transportation-network.jpg",
+  "lily_site": "images/lily-court-site-plan.jpg",
+  "lily_floor": "images/lily-court-floor-plan.jpg",
+  "greenzone_site": "images/greenzone-site-plan.jpg",
+  "greenzone_floor": "images/greenzone-floor-plan.jpg"
+};
+const PROJECTS = {"tana-river": {"title": "Tana River spatial plan \u2014 cadastral design support", "meta": [["Area", "Handampia, Tana River County"], ["Client", "Tana River County Government \u2014 Lands, Physical Planning &amp; Urban Development"], ["Consultant", "GeoDev (K) Ltd"], ["Scale", "1:5,000"], ["Coordinate system", "Arc 1960 UTM Zone 37S"]], "paragraphs": ["Provided cadastral design support aligned with the Handampia spatial planning proposals, structuring parcel layouts and integrating cadastral boundary data into the wider planning framework.", "The scheme plan defines the planning and cadastral boundaries; the structure plan translates this into a full land-use zoning scheme covering residential, commercial, industrial, educational, recreational, and public-utility allocations, together with the road network and flood-plain conservation zones &mdash; including 243.5 ha residential, 27.7 ha commercial, 20.5 ha industrial, and a 209.4 ha flood-plain conservation zone."], "images": [["handampia_scheme", "Handampia Scheme Plan &mdash; planning and cadastral boundaries"], ["handampia_structure", "Handampia Structure Plan &mdash; zoned land use with area schedule"]]}, "migori": {"title": "Migori town \u2014 draft structure plan", "meta": [["Client", "Migori County Government \u2014 Lands and Housing Department"], ["Consultant", "GeoDev (K) Ltd"], ["Scale", "1:25,000"], ["Coordinate system", "Arc 1960 UTM Zone 36S"]], "paragraphs": ["Contributed GIS mapping and spatial data preparation for the Migori Town draft structure plan, covering CBD land-use zoning, town-wide proposed structure planning, and the transportation network.", "Outputs supported the county's planning and infrastructure-prioritization decisions across the Migori planning area, including classified road hierarchy, proposed link roads and a bypass, and multimodal infrastructure such as bus stops, a lorry park, and a multi-level car park."], "images": [["migori_cbd", "Migori Town Planning Area \u2014 Draft Structure Plan, CBD zoning detail"], ["migori_town", "Migori Town Proposed Structure Plan &mdash; full planning-area land use"], ["migori_transport", "Migori Town Plan Transportation Network"]]}, "sectional-titling": {"title": "Sectional titling \u2014 Lily Court &amp; Green Zone Apartments", "meta": [["Type", "Sectional property survey"], ["Lily Court title", "L.R. Nairobi/Block 35/387, Nairobi County"], ["Green Zone title", "L.R. No. 28428/35, Kiambu Municipality"], ["Green Zone units", "82-unit development"]], "paragraphs": ["Undertook sectional property surveys including unit definition, unit factor computation, and preparation of sectional plans for multi-unit residential developments, from initial site and building location surveys through to the full schedule of unit factors submitted for registration.", "Lily Court Apartments, Second Parklands Avenue, Nairobi: prepared the sectional plan covering site and building location and the typical floor layout, establishing the boundary, building footprint, and unit boundaries against the registered parcel.", "Green Zone Apartments, Kiambu Municipality: prepared the amended sectional plan for an 82-unit development, including the full schedule of unit factors &mdash; unit size, floor level, height, and computed unit factor per unit &mdash; alongside the site and building location plan."], "images": [["lily_site", "Site and Building Location Plan \u2014 L.R. Nairobi/Block 35/387 (Lily Court)"], ["lily_floor", "Typical Floor Plan \u2014 Lily Court Apartments"], ["greenzone_site", "Site and Building Location Plan with Schedule of Unit Factors \u2014 Green Zone Apartments"], ["greenzone_floor", "Ground Floor Plan \u2014 Green Zone Apartments"]]}, "wajir": {"title": "Mapping seven urban centres, Wajir County", "meta": [["Scope", "7 urban centres"], ["Focus", "Settlement &amp; infrastructure mapping"]], "paragraphs": ["Oversaw the mapping of seven urban centres across Wajir County to support planning and service delivery.", "Developed spatial datasets capturing settlement patterns, infrastructure distribution, and land use for each town, forming a baseline for future planning interventions."], "images": []}, "kusp": {"title": "Kenya Urban Support Program \u2014 GIS team", "meta": [["Role", "GIS Team Member"], ["Period", "2018 \u2013 2019"]], "paragraphs": ["Contributed to GIS data preparation, mapping, and analysis for participating urban centres under the Kenya Urban Support Program.", "Supported the development of spatial outputs used in urban planning and infrastructure prioritization across multiple counties."], "images": []}, "baringo": {"title": "Site suitability for affordable housing, Baringo", "meta": [["Focus", "Site suitability analysis"], ["Method", "Thematic weighted overlay"]], "paragraphs": ["Conducted site suitability analysis using GIS-based thematic mapping, including infrastructure availability, water access, flood risk, drainage patterns, and sewer reticulation.", "Applied spatial analysis to identify optimal development zones and support planning decisions for sustainable housing in Baringo County."], "images": []}};
+
+(function(){
+  var overlay = document.getElementById('modal-overlay');
+  var body = document.getElementById('modal-body');
+  var closeBtn = document.getElementById('modal-close');
+  var lastFocused = null;
+
+  function render(key){
+    var p = PROJECTS[key];
+    if(!p) return;
+    var html = '<h2 id="modal-title">' + p.title + '</h2>';
+    if(p.meta && p.meta.length){
+      html += '<div class="modal__meta">';
+      p.meta.forEach(function(row){
+        html += '<div><dt>' + row[0] + '</dt><dd>' + row[1] + '</dd></div>';
+      });
+      html += '</div>';
+    }
+    p.paragraphs.forEach(function(par){ html += '<p>' + par + '</p>'; });
+    if(p.images && p.images.length){
+      html += '<div class="modal__gallery">';
+      p.images.forEach(function(img){
+        html += '<figure><img src="' + IMAGES[img[0]] + '" alt="' + img[1] + '" loading="lazy">' +
+                '<figcaption>' + img[1] + '</figcaption></figure>';
+      });
+      html += '</div>';
+    } else {
+      html += '<div class="modal__empty">Map plates for this project aren\'t in the current portfolio pack yet.</div>';
+    }
+    body.innerHTML = html;
+  }
+
+  function openModal(key){
+    if(!PROJECTS[key]) return;
+    lastFocused = document.activeElement;
+    render(key);
+    overlay.classList.add('open');
+    document.body.classList.add('modal-open');
+    closeBtn.focus();
+  }
+
+  function closeModal(){
+    overlay.classList.remove('open');
+    document.body.classList.remove('modal-open');
+    if(lastFocused) lastFocused.focus();
+  }
+
+  document.querySelectorAll('img.thumb__art[data-cover]').forEach(function(img){
+    var key = img.getAttribute('data-cover');
+    if(IMAGES[key]) img.src = IMAGES[key];
+  });
+
+  document.querySelectorAll('.tile__link[data-project]').forEach(function(link){
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      openModal(link.getAttribute('data-project'));
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){
+    if(e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+  });
+})();
+
+(function(){
+  var form = document.getElementById('contact-form');
+  var note = document.getElementById('form-note');
+  var btn = form ? form.querySelector('button[type="submit"]') : null;
+  if(!form) return;
+
+  function buildMailto(name, email, message){
+    var subject = 'Portfolio enquiry from ' + name;
+    var body = message + '\n\n— ' + name + ' (' + email + ')';
+    return 'mailto:nyakaralauren@gmail.com'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(body);
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('f-name').value.trim();
+    var email = document.getElementById('f-email').value.trim();
+    var message = document.getElementById('f-msg').value.trim();
+    var placeholderAction = form.action.indexOf('YOUR_FORM_ID') !== -1;
+
+    // No Formspree ID configured yet — go straight to the mailto fallback.
+    if(placeholderAction){
+      if(note){ note.textContent = 'Opening your email app with this message pre-filled…'; note.style.display = 'block'; }
+      window.location.href = buildMailto(name, email, message);
+      return;
+    }
+
+    if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
+
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function(response){
+      if(response.ok){
+        if(note){ note.textContent = 'Thanks — your message has been sent.'; note.style.display = 'block'; }
+        form.reset();
+      } else {
+        throw new Error('Formspree error');
+      }
+    }).catch(function(){
+      if(note){ note.textContent = 'Something went wrong — opening your email app instead.'; note.style.display = 'block'; }
+      window.location.href = buildMailto(name, email, message);
+    }).finally(function(){
+      if(btn){ btn.disabled = false; btn.textContent = 'Send message'; }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
